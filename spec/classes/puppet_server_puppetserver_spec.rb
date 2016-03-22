@@ -40,6 +40,7 @@ describe 'puppet::server::puppetserver' do
                                           'TLS_RSA_WITH_AES_128_CBC_SHA', ],
         :server_max_active_instances => 2,
         :server_ca                   => true,
+        :server_use_legacy_auth_conf => false,
       } end
 
       describe 'with default parameters' do
@@ -75,6 +76,21 @@ describe 'puppet::server::puppetserver' do
         it { should contain_file('/etc/custom/puppetserver/conf.d/webserver.conf').
                                  with_content(/ssl-host\s+=\s0\.0\.0\.0/) }
         it { should contain_file('/etc/custom/puppetserver/conf.d/auth.conf') }
+        if Puppet.version >= '4.3'
+          context 'on puppet >= 4.3' do
+            it 'should have use-legacy-auth-conf: false in puppetserver.conf' do
+              content = catalogue.resource('file', '/etc/custom/puppetserver/conf.d/puppetserver.conf').send(:parameters)[:content]
+              expect(content).to include(%Q[    use-legacy-auth-conf: false\n])
+            end
+          end
+        else
+          context 'on puppet < 4.3' do
+            it 'should not have a use-legacy-auth-conf setting in puppetserver.conf' do
+              content = catalogue.resource('file', '/etc/custom/puppetserver/conf.d/puppetserver.conf').send(:parameters)[:content]
+              expect(content).not_to include('use-legacy-auth-conf')
+            end
+          end
+        end
       end
 
       describe 'with extra_args parameter' do

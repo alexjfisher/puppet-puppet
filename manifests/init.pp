@@ -563,6 +563,9 @@
 #                                     Defaults to true
 #                                     type:boolean
 #
+# $server_use_legacy_auth_conf::      Should the puppetserver use the legacy puppet auth.conf?
+#                                     Defaults to false (the puppetserver will use its own conf.d/auth.conf)
+#
 # === Usage:
 #
 # * Simple usage:
@@ -726,6 +729,7 @@ class puppet (
   $server_lenses_dir               = $puppet::params::server_lenses_dir,
   $server_jruby_gem_home           = $puppet::params::server_jruby_gem_home,
   $server_max_active_instances     = $puppet::params::server_max_active_instances,
+  $server_use_legacy_auth_conf     = $puppet::params::server_use_legacy_auth_conf,
 ) inherits puppet::params {
 
   validate_bool($listen)
@@ -819,6 +823,7 @@ class puppet (
     validate_array($server_admin_api_whitelist)
     validate_bool($server_enable_ruby_profiler)
     validate_bool($server_ca_auth_required)
+    validate_bool($server_use_legacy_auth_conf)
   } else {
     if $server_ip != $puppet::params::ip {
       notify {

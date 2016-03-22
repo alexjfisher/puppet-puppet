@@ -56,6 +56,16 @@ authorization: {
             name: "puppetlabs environments"
         },
         {
+            match-request: {
+                path: "/puppet/v3/resource_type"
+                type: path
+                method: [get, post]
+            }
+            allow: "*"
+            sort-order: 500
+            name: "puppetlabs resource type"
+        },
+        {
             # Allow nodes to access all file services; this is necessary for
             # pluginsync, file serving from modules, and file serving from
             # custom mount points (see fileserver.conf). Note that the `/file`

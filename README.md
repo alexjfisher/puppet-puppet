@@ -13,6 +13,9 @@ The Puppet master is configured under Apache and Passenger by default, unless
 3.x based installation, `server_implementation` can be set to `puppetserver`
 to switch to the JVM-based Puppet Server.
 
+When using Puppet Server 2 (version 2.0 was the first version to support Puppet 4),
+Puppet Server 2.2 is the minimum version supported by this module.
+
 Many puppet.conf options for agents, masters and other are parameterized, with
 class documentation provided at the top of the manifests. In addition, there
 are hash parameters for each configuration section that can be used to supply
