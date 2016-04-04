@@ -229,6 +229,10 @@
 # $remove_lock::                      Remove the agent lock when running.
 #                                     type:boolean
 #
+# $client_certname::                  The node’s certificate name, and the unique
+#                                     identifier it uses when requesting catalogs.
+#                                     type:string
+#
 # $dir_owner::                        Owner of the base puppet directory, used when
 #                                     puppet::server is false.
 #                                     type:string
@@ -516,9 +520,6 @@
 #                                     disable in case CA is delegated to a separate instance
 #                                     type:boolean
 #
-# $server_lenses_dir::                The path of the augeas lenses directory
-#                                     type:string
-#
 # $server_puppetserver_dir::          The path of the puppetserver config dir
 #                                     type:string
 #
@@ -647,6 +648,7 @@ class puppet (
   $client_package                  = $puppet::params::client_package,
   $agent                           = $puppet::params::agent,
   $remove_lock                     = $puppet::params::remove_lock,
+  $client_certname                 = $puppet::params::client_certname,
   $puppetmaster                    = $puppet::params::puppetmaster,
   $systemd_unit_name               = $puppet::params::systemd_unit_name,
   $service_name                    = $puppet::params::service_name,
@@ -733,7 +735,6 @@ class puppet (
   $server_jvm_min_heap_size        = $puppet::params::server_jvm_min_heap_size,
   $server_jvm_max_heap_size        = $puppet::params::server_jvm_max_heap_size,
   $server_jvm_extra_args           = $puppet::params::server_jvm_extra_args,
-  $server_lenses_dir               = $puppet::params::server_lenses_dir,
   $server_jruby_gem_home           = $puppet::params::server_jruby_gem_home,
   $server_max_active_instances     = $puppet::params::server_max_active_instances,
   $server_use_legacy_auth_conf     = $puppet::params::server_use_legacy_auth_conf,
@@ -817,7 +818,6 @@ class puppet (
   if $server_implementation == 'puppetserver' {
     validate_re($server_jvm_min_heap_size, '^[0-9]+[kKmMgG]$')
     validate_re($server_jvm_max_heap_size, '^[0-9]+[kKmMgG]$')
-    validate_absolute_path($server_lenses_dir)
     validate_absolute_path($server_puppetserver_dir)
     validate_absolute_path($server_jruby_gem_home)
     validate_integer($server_max_active_instances)

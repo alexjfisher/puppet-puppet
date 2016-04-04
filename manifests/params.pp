@@ -72,7 +72,6 @@ class puppet::params {
       $sharedir          = "${dir_prefix}/share"
       $bindir            = "${dir_prefix}/bin"
       $root_group        = undef
-      $server_lenses_dir = "${dir_prefix}/share/augeas/lenses"
     }
 
     /^(FreeBSD|DragonFly)$/ : {
@@ -85,7 +84,6 @@ class puppet::params {
       $sharedir          = '/usr/local/share/puppet'
       $bindir            = '/usr/local/bin'
       $root_group        = undef
-      $server_lenses_dir = '/usr/local/share/augeas/lenses'
     }
 
     default : {
@@ -98,7 +96,6 @@ class puppet::params {
         $vardir            = '/opt/puppetlabs/puppet/cache'
         $sharedir          = '/opt/puppetlabs/puppet'
         $bindir            = '/opt/puppetlabs/bin'
-        $server_lenses_dir = '/opt/puppetlabs/puppet/share/augeas/lenses'
       } else {
         $dir               = '/etc/puppet'
         $codedir           = '/etc/puppet'
@@ -108,7 +105,6 @@ class puppet::params {
         $vardir            = '/var/lib/puppet'
         $sharedir          = '/usr/share/puppet'
         $bindir            = '/usr/bin'
-        $server_lenses_dir = '/usr/share/augeas/lenses'
       }
       $root_group = undef
     }
@@ -151,6 +147,7 @@ class puppet::params {
   # Will this host be a puppet agent ?
   $agent                     = true
   $remove_lock               = true
+  $client_certname           = $::clientcert
 
   # Custom puppetmaster
   if defined('$trusted') and $::trusted['authenticated'] == 'local' {
